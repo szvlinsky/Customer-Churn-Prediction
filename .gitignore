@@ -1,2 +1,8 @@
-﻿.env
+﻿# Data
 data/raw/
+
+# Environment and temporary files
+.venv/
+.env
+.ipynb_checkpoints/
+__pycache__/
