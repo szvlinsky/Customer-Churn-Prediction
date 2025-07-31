@@ -2,46 +2,24 @@ import pandas as pd
 import numpy as np
 
 def optimize_dtypes(df: pd.DataFrame) -> pd.DataFrame:
-
-    category_columns = [
-        'customer_id',
-        'article_id',
-        'product_type_no',
-        'garment_group_no',
-        'perceived_colour_master_id',
-        'sales_channel_id',
-        'season',
-        'weekday',
-        'dominant_season',
-        'dominant_weekday'
-    ]
-
-    for col in category_columns:
-        if col in df.columns:
-            df[col] = df[col].astype('category')
-
-    for col in df.select_dtypes(include='object').columns:
-        df[col] = df[col].astype('category')
-
-    for col in df.columns:
-        if df[col].dtype.kind in ('f','i','u'):
-            c_min, c_max = df[col].min(), df[col].max()
-            if c_min >= np.finfo(np.float16).min and c_max <= np.finfo(np.float16).max:
-                df[col] = df[col].astype(np.float16)
-            elif c_min >= np.finfo(np.float32).min and c_max <= np.finfo(np.float32).max:
-                df[col] = df[col].astype(np.float32)
-            else:
-                df[col] = df[col].astype(np.float64)
-
-    return df.info()
-
-def filter_customers_with_min_purchases(df: pd.DataFrame,
-                                        customers_df: pd.DataFrame,
-                                        min_purchases: int = 3) -> tuple[pd.DataFrame, pd.DataFrame]:
+    before = df.memory_usage(deep=True).sum()
     
-    active_customers = df['customer_id'].value_counts()
-    active_customers = active_customers[active_customers >= min_purchases].index
+    for col in df.columns:
+        if col not in ['price', 'age', 't_dat']:
+            df[col] = df[col].astype('category')
+    
+    after = df.memory_usage(deep=True).sum()
+    print(f"[optimize_dtypes] Memory reduced from {before / 1_048_576:.2f} MB to {after / 1_048_576:.2f} MB")
 
+    return df
+
+def filter_customers_with_min_purchase_days(df: pd.DataFrame,
+                                            customers_df: pd.DataFrame,
+                                            min_days: int = 3
+                                            ) -> tuple[pd.DataFrame, pd.DataFrame]:
+    
+    purchase_days = df.groupby('customer_id', observed=True)['t_dat'].nunique()
+    active_customers = purchase_days[purchase_days >= min_days].index
     df_filtered = df[df['customer_id'].isin(active_customers)].copy()
     customers_filtered = customers_df[customers_df['customer_id'].isin(active_customers)].copy()
 
