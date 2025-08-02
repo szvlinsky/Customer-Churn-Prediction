@@ -27,7 +27,6 @@ def filter_customers_with_min_purchase_days(df: pd.DataFrame,
 
 def delete_columns(df: pd.DataFrame, customer_df: pd.DataFrame) -> None:
     columns_to_drop = [
-        'postal_code',
         'garment_group_no',
         'section_no',
         'index_group_no',
