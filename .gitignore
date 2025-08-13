@@ -1,6 +1,7 @@
 ﻿# Data
 data/raw/
 data/processed/
+data/split/
 
 # Environment and temporary files
 .venv/

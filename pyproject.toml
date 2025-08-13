@@ -19,8 +19,8 @@ n_trials = 30
 random_state = 42
 early_stopping_rounds = 50
 processed_dir = "data/processed"
-target_name = "churn"             # jak zapisałeś w split
-objective_name = "roc_auc"    # optymalizujemy ROC AUC
+target_name = "churn"
+objective_name = "roc_auc"
 
 [tool.xgb_bayes.space]
 n_estimators     = { type = "int",   lower = 200,   upper = 1200 }
