@@ -13,3 +13,23 @@ dependencies = [
 valid_size = 20
 test_size = 10
 # train_size = 100 - (test_size + valid_size)
+
+[tool.xgb_bayes]
+n_trials = 30
+random_state = 42
+early_stopping_rounds = 50
+processed_dir = "data/processed"
+target_name = "churn"             # jak zapisałeś w split
+objective_name = "roc_auc"    # optymalizujemy ROC AUC
+
+[tool.xgb_bayes.space]
+n_estimators     = { type = "int",   lower = 200,   upper = 1200 }
+max_depth        = { type = "int",   lower = 3,     upper = 10 }
+learning_rate    = { type = "float", lower = 0.003, upper = 0.5,   log = true }
+subsample        = { type = "float", lower = 0.6,   upper = 1.0 }
+colsample_bytree = { type = "float", lower = 0.6,   upper = 1.0 }
+min_child_weight = { type = "float", lower = 0.1,   upper = 100.0, log = true }
+gamma            = { type = "float", lower = 0.001, upper = 1.0,   log = true }
+reg_alpha        = { type = "float", lower = 0.001, upper = 10.0,  log = true }
+reg_lambda       = { type = "float", lower = 0.001, upper = 100.0, log = true }
+scale_pos_weight = { type = "float", lower = 0.5,   upper = 5.0 }

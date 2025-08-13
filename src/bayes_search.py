@@ -1,12 +1,3 @@
-from __future__ import annotations
-
-from pathlib import Path
-from typing import Dict, Any, List, Tuple
-import tomllib
-
-
-from __future__ import annotations
-
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 import tomllib
@@ -38,9 +29,10 @@ def load_xgb_bayes_config() -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
         low = spec.get("lower")
         high = spec.get("upper")
         log = bool(spec.get("log", False))
-        space.append({"name": name, "type": t, "low": low, "high": high, "log": log})
+        space.append({"name": name, "type": t, "low": low,
+                       "high": high, "log": log})
 
     cfg = {k: xgb_bayes[k] for k in required}
-    
+
     return cfg, space
 
