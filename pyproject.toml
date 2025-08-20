@@ -15,21 +15,24 @@ test_size = 10
 # train_size = 100 - (test_size + valid_size)
 
 [tool.xgb_bayes]
-n_trials = 30
+n_trials = 10
 random_state = 42
 early_stopping_rounds = 50
-processed_dir = "data/processed"
+processed_dir = "data/split"
 target_name = "churn"
-objective_name = "roc_auc"
+objective_name = "binary:logistic"
+num_boost_round = 800
 
 [tool.xgb_bayes.space]
-n_estimators     = { type = "int",   lower = 200,   upper = 1200 }
-max_depth        = { type = "int",   lower = 3,     upper = 10 }
-learning_rate    = { type = "float", lower = 0.003, upper = 0.5,   log = true }
-subsample        = { type = "float", lower = 0.6,   upper = 1.0 }
-colsample_bytree = { type = "float", lower = 0.6,   upper = 1.0 }
-min_child_weight = { type = "float", lower = 0.1,   upper = 100.0, log = true }
-gamma            = { type = "float", lower = 0.001, upper = 1.0,   log = true }
-reg_alpha        = { type = "float", lower = 0.001, upper = 10.0,  log = true }
-reg_lambda       = { type = "float", lower = 0.001, upper = 100.0, log = true }
-scale_pos_weight = { type = "float", lower = 0.5,   upper = 5.0 }
+max_depth        = { type = "int",   lower = 3,    upper = 10 }
+max_bin          = { type = "int",   lower = 64,   upper = 256 }
+eta              = { type = "float", lower = 0.01, upper = 0.3,  log = true }  # learning rate 
+subsample        = { type = "float", lower = 0.5,  upper = 1.0 }
+colsample_bytree = { type = "float", lower = 0.5,  upper = 1.0 }
+min_child_weight = { type = "float", lower = 1.0,  upper = 10.0 }
+gamma            = { type = "float", lower = 0.0,  upper = 5.0 }
+reg_lambda       = { type = "float", lower = 1e-4, upper = 10.0, log = true }
+reg_alpha        = { type = "float", lower = 1e-4, upper = 10.0, log = true }
+grow_policy      = { type = "cat",   values = ["depthwise", "lossguide"] }
+booster          = { type = "cat",   values = ["gbtree", "dart"] }
+sampling_method  = { type = "cat", values = ["uniform"] }  # opcjonalnie
