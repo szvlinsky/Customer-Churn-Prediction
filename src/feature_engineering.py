@@ -40,7 +40,6 @@ def generate_customer_features(df: pd.DataFrame, customers_df: pd.DataFrame) -> 
 
     # Wartości modalne
     most_common = df.groupby('customer_id', observed=True).agg(
-    most_common_articles=('article_id', calc_mode),
     most_common_channel=('sales_channel_id', calc_mode),
     most_common_product_type=('product_type_name', calc_mode),
     most_common_garment_group=('garment_group_name', calc_mode),
@@ -49,7 +48,6 @@ def generate_customer_features(df: pd.DataFrame, customers_df: pd.DataFrame) -> 
     most_common_index_group=('index_group_name', calc_mode),
     most_common_index=('index_name', calc_mode),
     most_common_graph_appearance=('graphical_appearance_name', calc_mode),
-    most_common_prod_name=('prod_name', calc_mode),
     most_common_color_group=('colour_group_name', calc_mode),
     most_common_color_value=('perceived_colour_value_name', calc_mode)
     ).reset_index()
@@ -103,7 +101,7 @@ def generate_customer_features(df: pd.DataFrame, customers_df: pd.DataFrame) -> 
         final_df = final_df.merge(other_df, on='customer_id', how='left')
 
     # Oczyszczenie danych i zmiana typów
-    final_df = final_df.drop(columns=['first_purchase_date', 'last_purchase_date', 'days_since_last_purchase'], errors='ignore')
+    final_df = final_df.drop(columns=['first_purchase_date', 'last_purchase_date', 'days_since_last_purchase', 'postal_code'], errors='ignore')
     final_df = final_df.astype({
     'customer_id': 'string',
     'FN': 'category',
@@ -140,7 +138,6 @@ def generate_customer_features(df: pd.DataFrame, customers_df: pd.DataFrame) -> 
     'price_kurt': 'float32',
     'dominant_weekday': 'category',
     'dominant_season': 'category',
-    'most_common_articles': 'category',
     'most_common_channel': 'category',
     'most_common_product_type': 'category',
     'most_common_garment_group': 'category',
@@ -149,10 +146,8 @@ def generate_customer_features(df: pd.DataFrame, customers_df: pd.DataFrame) -> 
     'most_common_index_group': 'category',
     'most_common_index': 'category',
     'most_common_graph_appearance': 'category',
-    'most_common_prod_name': 'category',
     'most_common_color_group': 'category',
     'most_common_color_value': 'category',
-    'postal_code': 'category',
     'churn': 'category'
 })
 
