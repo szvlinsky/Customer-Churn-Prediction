@@ -1,0 +1,16 @@
+# Git
+.gitignore
+
+# Data
+data/raw/
+data/processed/
+
+# Environment and temporary files
+.venv/
+.env
+.ipynb_checkpoints/
+__pycache__/
+
+# Jupyter Notebooks
+notebooks/
+models/
