@@ -1,13 +1,23 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "myproject"
+name = "customer-churn-prediction"
 version = "0.1.0"
+description = ""
+
+readme = "README.md"
+requires-python = ">=3.13"
 dependencies = [
-    "pandas"
+    "pandas (>=2.3.3,<3.0.0)",
+    "numpy (>=2.3.4,<3.0.0)",
+    "xgboost (>=3.1.1,<4.0.0)",
+    "scikit-learn (>=1.7.2,<2.0.0)",
+    "scikit-optimize (>=0.10.2,<0.11.0)",
+    "mlflow (>=3.5.1,<4.0.0)"
 ]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.split]
 valid_size = 40
@@ -35,4 +45,4 @@ reg_lambda       = { type = "float", lower = 1e-4, upper = 10.0, log = true }
 reg_alpha        = { type = "float", lower = 1e-4, upper = 10.0, log = true }
 grow_policy      = { type = "cat",   values = ["depthwise", "lossguide"] }
 booster          = { type = "cat",   values = ["gbtree", "dart"] }
-sampling_method  = { type = "cat", values = ["uniform"] }  # opcjonalnie
+sampling_method  = { type = "cat", values = ["uniform"] }
