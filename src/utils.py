@@ -1,10 +1,5 @@
 import pandas as pd
-from scipy.stats import entropy
 import numpy as np
-
-def calc_entropy(series):
-    probs = series.value_counts(normalize=True)
-    return entropy(probs)
 
 def describe_columns(data):
     total = data.count()
