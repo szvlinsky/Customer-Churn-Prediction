@@ -2,9 +2,12 @@
 data/raw/
 data/processed/
 data/split/
+.dvc/
+.dvcignore
 
 # Environment and temporary files
 .venv/
 .env
 .ipynb_checkpoints/
 __pycache__/
+poetry.lock
